@@ -10,6 +10,6 @@ import java.util.List;
 @EnableScan
 @Repository
 public interface StudentPerformanceRepository extends CrudRepository<StudentPerformance, String> {
-    StudentPerformance findStudentPerformanceByTeacherIdAndStudentId(String teacherId, String studentId);
+    List<StudentPerformance> findStudentPerformancesByTeacherIdAndStudentId(String teacherId, String studentId);
     List<StudentPerformance> findStudentPerformancesByTeacherId(String teacherId);
 }

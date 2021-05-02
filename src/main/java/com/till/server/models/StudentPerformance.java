@@ -16,13 +16,17 @@ public class StudentPerformance implements Serializable  {
     private String behavior;
     private String teamwork;
     private String assignment;
-    private String notes;
+    private String pNote;
+    private String bNote;
+    private String tNote;
+    private String aNote;
 
     public StudentPerformance(){}
 
-    public StudentPerformance(String id, String studentId, String teacherId, String updateDate,
-                              String participation, String behavior, String teamwork,
-                              String assignment, String notes) {
+    public StudentPerformance(String id, String studentId, String teacherId,
+                              String updateDate, String participation,
+                              String behavior, String teamwork, String assignment, String pNote,
+                              String bNote, String tNote, String aNote) {
         this.id = id;
         this.studentId = studentId;
         this.teacherId = teacherId;
@@ -31,7 +35,10 @@ public class StudentPerformance implements Serializable  {
         this.behavior = behavior;
         this.teamwork = teamwork;
         this.assignment = assignment;
-        this.notes = notes;
+        this.pNote = pNote;
+        this.bNote = bNote;
+        this.tNote = tNote;
+        this.aNote = aNote;
     }
 
     @DynamoDBHashKey(attributeName="id")
@@ -107,11 +114,38 @@ public class StudentPerformance implements Serializable  {
     }
 
     @DynamoDBAttribute
-    public String getNotes() {
-        return notes;
+    public String getpNote() {
+        return pNote;
     }
 
-    public void setNotes(String notes) {
-        this.notes = notes;
+    public void setpNote(String pNote) {
+        this.pNote = pNote;
+    }
+
+    @DynamoDBAttribute
+    public String getbNote() {
+        return bNote;
+    }
+
+    public void setbNote(String bNote) {
+        this.bNote = bNote;
+    }
+
+    @DynamoDBAttribute
+    public String gettNote() {
+        return tNote;
+    }
+
+    public void settNote(String tNote) {
+        this.tNote = tNote;
+    }
+
+    @DynamoDBAttribute
+    public String getaNote() {
+        return aNote;
+    }
+
+    public void setaNote(String aNote) {
+        this.aNote = aNote;
     }
 }

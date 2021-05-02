@@ -9,8 +9,9 @@ import com.till.server.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -53,6 +54,12 @@ public class StudentController {
         return this.studentRepository.save(student);
     }
 
+    // create a new student performance by getting json data
+    // if the performance exist, it will update the performance
+    @RequestMapping(path = "/performances/", method=RequestMethod.POST, headers="Accept=application/json")
+    public StudentPerformance createStudent(@RequestBody StudentPerformance performance) {
+        return performanceRepository.save(performance);
+    }
 
     @GetMapping(path = "/performances/findAll")
     public List<StudentPerformance> findAllStudentPerformances() {
@@ -60,9 +67,30 @@ public class StudentController {
     }
 
     @GetMapping(path = "/performances/", params = {"teacherId", "studentId"})
-    public StudentPerformance findAllStudentPerformancesByTeacherId(@RequestParam("teacherId")String teacherId,
+    public List<StudentPerformance> findAllStudentPerformancesByTeacherId(@RequestParam("teacherId")String teacherId,
                                                                           @RequestParam("studentId")String studentId) {
-        return this.performanceRepository.findStudentPerformanceByTeacherIdAndStudentId(teacherId, studentId);
+        List<StudentPerformance> performances = this.performanceRepository.findStudentPerformancesByTeacherIdAndStudentId(teacherId, studentId);
+        ArrayList<StudentPerformance> list = new ArrayList<>(performances);
+        list.sort((o1, o2) -> {
+            Calendar calendar1 = Calendar.getInstance();
+            Calendar calendar2 = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/M/dd", Locale.ENGLISH);
+            try {
+                calendar1.setTime(sdf.parse(o1.getUpdateDate()));
+                calendar2.setTime(sdf.parse(o2.getUpdateDate()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            long time1 = calendar1.getTimeInMillis();
+            long time2 = calendar2.getTimeInMillis();
+            return Long.compare(time2, time1);
+        });
+        // list.subList(0, 7);
+        if (list.size() > 6) {
+            return list.subList(0, 6);
+        } else {
+            return list;
+        }
     }
 
     @GetMapping(path="info", params = {"studentId"})

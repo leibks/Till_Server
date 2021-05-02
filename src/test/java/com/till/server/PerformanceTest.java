@@ -57,16 +57,11 @@ public class PerformanceTest {
         Iterator<JsonNode> iter = rootNode.iterator();
 
         ObjectNode currentNode;
-        int increment = 0;
 
         while (iter.hasNext()) {
 
             currentNode = (ObjectNode) iter.next();
 
-            if (increment > 60) break;
-
-            String performanceId = String.valueOf(increment);
-            increment++;
             String studentId = currentNode.path("Student ID").asText();
             String teacherId = currentNode.path("Teacher ID").asText();
             String performDate = currentNode.path("Performance Date").asText();
@@ -74,11 +69,17 @@ public class PerformanceTest {
             String behavior = currentNode.path("Behavior").asText();
             String teamwork = currentNode.path("Teamwork").asText();
             String assignment = currentNode.path("Assignment").asText();
-            String notes = currentNode.path("Notes").asText();
+            String pNote = currentNode.path("Note for Participation").asText();
+            String bNote = currentNode.path("Note for Behavior").asText();
+            String tNote = currentNode.path("Note for Teamwork").asText();
+            String aNote = currentNode.path("Note for Assignment").asText();
+
+            String performanceId = teacherId + "+" + studentId + "+" + performDate;
 
             try {
                 dynamoDBMapper.save(new StudentPerformance(performanceId, studentId, teacherId,
-                        performDate, participation, behavior, teamwork, assignment, notes));
+                        performDate, participation, behavior, teamwork, assignment, pNote, bNote,
+                        tNote, aNote));
                 System.out.println("Put Student Performance succeeded: " + studentId );
 
             }
