@@ -54,7 +54,7 @@ public class StudentController {
         return this.studentRepository.save(student);
     }
 
-    // create a new student performance by getting json data
+    // create a new student performance by getting the json data
     // if the performance exist, it will update the performance
     @RequestMapping(path = "/performances/", method=RequestMethod.POST, headers="Accept=application/json")
     public StudentPerformance createStudent(@RequestBody StudentPerformance performance) {
