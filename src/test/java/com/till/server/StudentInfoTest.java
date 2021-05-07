@@ -63,8 +63,6 @@ public class StudentInfoTest {
 
             currentNode = (ObjectNode) iter.next();
 
-            if (increment > 60) break;
-
             String infoId = String.valueOf(increment);
             increment++;
             String studentId = currentNode.path("Student ID").asText();
